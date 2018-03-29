@@ -12,7 +12,8 @@ These sections will detail use of the Globus client for `sregistry`, meaning tha
 can transfer containers to and from Globus endpoints. You will need to configure a 
 [Globus Personal Endpoint](https://docs.globus.org/how-to/). For this tutorial, 
 we used the instructions first for the [linux command line](https://docs.globus.org/how-to/globus-connect-personal-linux/#globus-connect-personal-cli). If you have any trouble with these steps, please
-[reach out](https://www.github.com/singularityhub/sregistry-cli/issues).
+[reach out](https://www.github.com/singularityhub/sregistry-cli/issues). To see it in
+action, watch this [asciinema video](https://asciinema.org/a/173148?speed=2).
 
 
 ## Installation
