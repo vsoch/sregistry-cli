@@ -219,6 +219,9 @@ Globus Endpoints
 8  74f0809a-d11a-11e7-962c-22000a8cbd7d	[my-endpoints]	74f0809a-d11a-11e7-962c-22000a8cbd7d
 ```
 
+Check out [this asciinema](https://asciinema.org/a/173423?speed=2) to see how widespread
+Globus is!
+
 ### List Endpoint Content
 Now let's say we've found our favorite endpoint, and we want to peek at what is there:
 
