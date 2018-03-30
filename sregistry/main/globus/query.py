@@ -90,7 +90,8 @@ def list_endpoints(self, query=None):
     rows = []
     for kind,eps in endpoints.items():
         for epid,epmeta in eps.items():
-            rows.append([epid, '[%s]' %kind, epmeta['name']])
+            name = epmeta['display_name'] or epmeta['name']
+            rows.append([epid, '[%s]' %kind, name])
 
     bot.table(rows)
     return rows
@@ -129,7 +130,7 @@ def list_endpoint(self, endpoint, query=None):
     for filey in result:
 
         # Highlight container contenders with purple
-        name = filey['name']
+        name = filey['display_name'] or filey['name']
         if query is None or query in name:
             if name.endswith('img'):
                 name = bot.addColor('PURPLE',name)
