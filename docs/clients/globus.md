@@ -41,7 +41,7 @@ you can also prepend it to any sregistry command:
 $ SREGISTRY_CLIENT=globus sregistry shell
 ```
 
-### Your Globus  Personal Endpoint
+### Your Globus Personal Endpoint
 A globus personal endpoint is referring to a computer (such as yours!) that can be
 connected to via Globus, meaning that a small set of directories that you've designated
 can share files with others that use Globus. This also means that you can transfer files
@@ -56,7 +56,9 @@ registry to a remote endpoint. To be concise:
 These instructions will walk through how to set this up. If you use your endpoint casually
 I would recommend only having it running while you are using it. First, follow
 the instructions in the appropriate link (linux, Mac, or Windows) [here](https://docs.globus.org/how-to/) to install
-Globus Personal Endpoint. The things we care about are as follows:
+Globus Personal Endpoint. Note that the Personal Endpoint instructions can be confusing because
+you need to install the [Globus Client](https://docs.globus.org/cli/index.html#command_line_interface_cli) 
+in order to issue the command "globus" first. The things we care about are as follows:
 
  - `globusconnectpersonal`: the command line controller for your endpoint. This will be found inside
 the folder that you extracted in the [installation instructions](https://docs.globus.org/how-to/globus-connect-personal-linux/#globus-connect-personal-cli). You can add this to your `$PATH` if you want it to be available from anywhere.
