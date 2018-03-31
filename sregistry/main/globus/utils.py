@@ -169,14 +169,17 @@ def load_config_token(self, auth_file,
             if line.startswith(token_type):
 
                 # If we haven't found anything yet, intialize dictionary
+
                 if not config_token: 
                     config_token = {"token_type": "Bearer"}
 
                 # Split based on equals, and remove white space
+
                 var, value = [x.strip() for x in line.split('=')]
                 var = var.replace('%s_' %token_type, '')
 
                 # Expiration key is different between config and API
+
                 if 'expires' in var:
                     config_token['expires_at_seconds'] = int(value)
                 else:

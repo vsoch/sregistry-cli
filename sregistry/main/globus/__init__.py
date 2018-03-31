@@ -30,7 +30,7 @@ import os
 
 from .utils import (
     create_endpoint_cache,
-    create_endpoint_folder,    
+    create_endpoint_folder,
     get_endpoints,
     get_endpoint_path,
     init_transfer_client,
