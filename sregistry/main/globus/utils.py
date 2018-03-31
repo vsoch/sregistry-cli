@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from sregistry.logger import bot
 from sregistry.utils import read_file
-import pickle
+import re
 import os
 import requests
 import globus_sdk
@@ -93,7 +93,7 @@ def get_endpoint_path(self, endpoint_id):
     '''
     config = os.path.expanduser("~/.globusonline/lta/config-paths")
     if not os.path.exists(config):
-        bot.error('%s not found for a local Globus endpoint.')
+        bot.error('%s not found for a local Globus endpoint.' %config)
         sys.exit(1)
 
     path = None
@@ -133,6 +133,59 @@ def init_transfer_client(self):
 
     self.transfer_client = globus_sdk.TransferClient(authorizer=authorizer)
 
+
+def load_config_token(self, auth_file, 
+                      token_type='auth',
+                      scope = "profile openid email",
+                      resource_server = "auth.globus.org"):
+    '''if the user has authenticated with globus and has a globus.cfg file.
+       we don't need to repeat the handshake to get an access and refresh
+       token. This function will load the variables from file and save
+       them in the .sregistry cache.
+
+       Parameters
+       ==========
+       auth_file: the full path to globus.cfg with [cli] section
+       token_type: one of access (default) or transfer
+       scope: default scope type
+
+       Returns
+       =======
+       data structure with fields corresponding to the token type, for
+       adding to the .sregistry file. For example, a field like:
+ 
+           transfer_access_token = xxxx
+
+       given token_type transfer will return as  {'access_token': 'xxxx' }
+       
+    '''
+    config_token = None
+
+    if os.path.exists(auth_file):    
+
+        lines = [x.strip() for x in read_file(auth_file)]
+        for line in lines:
+
+            if line.startswith(token_type):
+
+                # If we haven't found anything yet, intialize dictionary
+
+                if not config_token: 
+                    config_token = {"token_type": "Bearer"}
+
+                # Split based on equals, and remove white space
+
+                var, value = [x.strip() for x in line.split('=')]
+                var = var.replace('%s_' %token_type, '')
+
+                # Expiration key is different between config and API
+
+                if 'expires' in var:
+                    config_token['expires_at_seconds'] = int(value)
+                else:
+                    config_token[var] = value
+
+    return config_token
 
 
 def get_endpoints(self, query=None):

@@ -34,6 +34,7 @@ from .utils import (
     get_endpoints,
     get_endpoint_path,
     init_transfer_client,
+    load_config_token,
     parse_endpoint_name
 )
 
@@ -76,11 +77,20 @@ class Client(ApiConnection):
     def _load_secrets(self):
         '''load the secrets credentials file with the Globus OAuthTokenResponse
         '''
+        # This file may not exist, will return None
+        globus_auth = os.path.expanduser("~/.globus.cfg")
 
-        # Second priority: load from cache
+        # If the client has already created a association, load it (or None)
+        auth = self._load_config_token(globus_auth, 'auth')
+        transfer = self._load_config_token(globus_auth, token_type = 'transfer',
+                   scope = "urn:globus:auth:scope:transfer.api.globus.org:all",
+                   resource_server = "transfer.api.globus.org")
        
-        self.auth = self._get_and_update_setting('GLOBUS_AUTH_RESPONSE')
-        self.transfer = self._get_and_update_setting('GLOBUS_TRANSFER_RESPONSE')
+        # First priority: load from cache, use loaded above as default
+
+        self.auth = self._get_and_update_setting('GLOBUS_AUTH_RESPONSE', auth)
+        self.transfer = self._get_and_update_setting('GLOBUS_TRANSFER_RESPONSE',
+                                                     transfer)
 
 
     # Runtime Calls
@@ -125,6 +135,7 @@ class Client(ApiConnection):
 
 # Transfer
 Client._init_transfer_client = init_transfer_client
+Client._load_config_token = load_config_token
 
 # Endpoints
 Client._create_endpoint_cache = create_endpoint_cache
